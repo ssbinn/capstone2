@@ -1,9 +1,13 @@
 package com.example.capstone2;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,6 +31,18 @@ public class BarChartMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_chart_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        Button developer_info_btn = (Button) findViewById(R.id.button3);
+        developer_info_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         GroupBarChart();
 
     }
@@ -38,13 +54,12 @@ public class BarChartMainActivity extends AppCompatActivity {
         mChart.getDescription().setEnabled(false);
         mChart.setPinchZoom(false);
         mChart.setDrawGridBackground(true);
-        // empty labels so that the names are spread evenly
-        String[] labels = {"", "강남 오금", "역곡 강남", "역곡 정발산", ""};
+        String[] labels = {"", "강남 오금",/*"역곡 강남", "합정 강남",*/ ""};
         XAxis xAxis = mChart.getXAxis();
         xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
-        xAxis.setGranularity(1f); // only intervals of 1 day
+        xAxis.setGranularity(1f);
         xAxis.setTextColor(Color.BLACK);
         xAxis.setTextSize(10);
         xAxis.setAxisLineColor(Color.WHITE);
@@ -53,7 +68,7 @@ public class BarChartMainActivity extends AppCompatActivity {
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        leftAxis.setTextSize(12);
+        leftAxis.setTextSize(10);
         leftAxis.setAxisLineColor(Color.WHITE);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularity(2);
@@ -63,10 +78,10 @@ public class BarChartMainActivity extends AppCompatActivity {
         mChart.getAxisRight().setEnabled(false);
         mChart.getLegend().setEnabled(false);
 
-        float[] valOne = {7560, 4068, 1500};
-        float[] valTwo = {2355, 5709, 2620};
-        float[] valThree = {8605, 3986, 1606};
-        float[] valFour = {7477, 4007, 1322};
+        float[] valOne = {7560/*, 4068, 4884*/};
+        float[] valTwo = {7477/*, 5709, 6044*/};
+        float[] valThree = {8605/*, 3986, 4998*/};
+        float[] valFour = {2355/*, 4007, 4953*/};
 
         ArrayList<BarEntry> barOne = new ArrayList<>();
         ArrayList<BarEntry> barTwo = new ArrayList<>();
@@ -108,7 +123,6 @@ public class BarChartMainActivity extends AppCompatActivity {
         float barWidth = 0.1f;
         // (barSpace + barWidth) * 2 + groupSpace = 1
         data.setBarWidth(barWidth);
-        // so that the entire chart is shown when scrolled from right to left
         xAxis.setAxisMaximum(labels.length - 1.1f);
         mChart.setData(data);
         mChart.setScaleEnabled(false);
