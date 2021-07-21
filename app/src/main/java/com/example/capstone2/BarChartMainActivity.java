@@ -54,7 +54,7 @@ public class BarChartMainActivity extends AppCompatActivity {
         mChart.getDescription().setEnabled(false);
         mChart.setPinchZoom(false);
         mChart.setDrawGridBackground(true);
-        String[] labels = {"", "강남 오금",/*"역곡 강남", "합정 강남",*/ ""};
+        String[] labels = {"", "강남 오금", ""};
         XAxis xAxis = mChart.getXAxis();
         xAxis.setCenterAxisLabels(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -78,10 +78,10 @@ public class BarChartMainActivity extends AppCompatActivity {
         mChart.getAxisRight().setEnabled(false);
         mChart.getLegend().setEnabled(false);
 
-        float[] valOne = {7560/*, 4068, 4884*/};
-        float[] valTwo = {7477/*, 5709, 6044*/};
-        float[] valThree = {8605/*, 3986, 4998*/};
-        float[] valFour = {2355/*, 4007, 4953*/};
+        float[] valOne = {7560};
+        float[] valTwo = {7477};
+        float[] valThree = {8605};
+        float[] valFour = {2355};
 
         ArrayList<BarEntry> barOne = new ArrayList<>();
         ArrayList<BarEntry> barTwo = new ArrayList<>();
