@@ -115,18 +115,18 @@ public List getTableData() {
             while(mCursor.moveToNext()){
 
                 // 해당 Row 저장
-                Week week = new Week();
-
-                week.setDate(mCursor.getString(0));
-                week.setStart_line(mCursor.getInt(1));
-                week.setStart_station(mCursor.getString(2));
-                week.setStop_line(mCursor.getInt(3));
-                week.setStop_station(mCursor.getString(4));
-                week.setCount(mCursor.getInt(5));
-                week.setPb(mCursor.getInt(6));
+//                Week week = new Week();
+//
+//                week.setDate(mCursor.getString(0));
+//                week.setStart_line(mCursor.getInt(1));
+//                week.setStart_station(mCursor.getString(2));
+//                week.setStop_line(mCursor.getInt(3));
+//                week.setStop_station(mCursor.getString(4));
+//                week.setCount(mCursor.getInt(5));
+//                week.setPb(mCursor.getInt(6));
 
                 // List에 해당 Row 추가
-                mList.add(week);
+//                mList.add(week);
                 }
 
         }

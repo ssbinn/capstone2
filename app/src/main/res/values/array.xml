@@ -12,9 +12,12 @@
         <item>9호선</item>
     </string-array>
 
-    <string-array name="start">
-        <item>1</item>
-        <item>2</item>
+    <string-array name="week">
+        <item>2호선 강남</item>
+        <item>1호선 역곡</item>
+        <item>3호선 오금</item>
+        <item>3호선 정발산</item>
+        <item>2호선 합정</item>
     </string-array>
 
     <string-array name="end">

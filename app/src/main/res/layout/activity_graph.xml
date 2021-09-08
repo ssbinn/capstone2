@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GraphActivity">
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logo2"
+        android:adjustViewBounds="true"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-4dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#5B8CC5"
+        android:text="요일별"
+        android:textColor="@color/white"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#5663AD"
+        android:text="시간별"
+        android:textColor="@color/white"
+        tools:layout_editor_absoluteX="223dp"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:background="#5a6276"
+        android:gravity="center"
+        android:text="출발호선"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="219dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:background="#5a6276"
+        android:gravity="center"
+        android:text="도착호선"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="223dp"
+        tools:layout_editor_absoluteY="219dp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:background="#5a6276"
+        android:gravity="center"
+        android:text="출발역"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="275dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:background="#5a6276"
+        android:gravity="center"
+        android:text="도착역"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="223dp"
+        tools:layout_editor_absoluteY="275dp" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/compare"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/metro"
+        tools:layout_editor_absoluteX="336dp"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edge"
+        android:gravity="center_vertical"
+        android:text=" 출발호선입력"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="219dp" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edge"
+        android:gravity="center_vertical"
+        android:text=" 도착호선입력"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="305dp"
+        tools:layout_editor_absoluteY="219dp" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edge"
+        android:gravity="center_vertical"
+        android:text=" 출발역입력"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="275dp" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edge"
+        android:gravity="center_vertical"
+        android:text=" 도착역입력"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="305dp"
+        tools:layout_editor_absoluteY="275dp" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="327dp">
+
+    </com.github.mikephil.charting.charts.LineChart>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="360dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="Copyright 2021. CO-LAB all rights reserved."
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="694dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

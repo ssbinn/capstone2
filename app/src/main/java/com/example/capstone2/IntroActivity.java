@@ -15,8 +15,8 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
 
         Button developer_info_btn = (Button) findViewById(R.id.button);
         developer_info_btn.setOnClickListener(new View.OnClickListener(){

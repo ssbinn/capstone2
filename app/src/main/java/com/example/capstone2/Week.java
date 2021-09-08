@@ -1,24 +1,26 @@
 package com.example.capstone2;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Week {
 
-    public String Date;
-    public Integer Start_line;
-    public String Start_station;
-    public Integer Stop_line;
-    public String Stop_station;
-    public Integer Count;
-    public Integer Pb;
+
+    private String Date;
+    private Integer Start_line;
+    private String Start_station;
+    private Integer Stop_line;
+    private String Stop_station;
+    private Integer Count;
+    private Integer Pb;
+
+    public Week(String date, Integer start_line, String start_station, Integer stop_line, String stop_station, Integer count, Integer pb) {
+        Date = date;
+        Start_line = start_line;
+        Start_station = start_station;
+        Stop_line = stop_line;
+        Stop_station = stop_station;
+        Count = count;
+        Pb = pb;
+    }
+
 
     public void setDate(String Date){this.Date = Date;}
     public void setStart_line(int Start_line){this.Start_line = Start_line;}
