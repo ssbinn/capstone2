@@ -1,19 +1,14 @@
 package com.example.capstone2;
 
-import static com.example.capstone2.util.DrawerUtil.drawerUtil;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.capstone2.ui.dialog.CustomDialog;
 import com.example.capstone2.util.ParseData;
 import com.example.capstone2.util.StationData;
 import com.example.capstone2.util.trafficData;
@@ -22,8 +17,9 @@ import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
 
-public class GraphActivity extends AppCompatActivity {
+import static com.example.capstone2.util.DrawerUtil.drawerUtil;
 
+public class GraphActivity2 extends AppCompatActivity {
 
     private ArrayList<ArrayList<trafficData>> timeList;
     private ArrayList<ArrayList<trafficData>> weekList;
@@ -43,7 +39,7 @@ public class GraphActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph);
+        setContentView(R.layout.activity_graph2);
 
 
         initView();
@@ -161,7 +157,7 @@ public class GraphActivity extends AppCompatActivity {
         {
             for (int i=0; i<weekList.size(); i++)
             {
-                for(trafficData trafficData : weekList.get(i))
+                for(com.example.capstone2.util.trafficData trafficData : weekList.get(i))
                 {
 
                     if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
@@ -204,3 +200,4 @@ public class GraphActivity extends AppCompatActivity {
     }
 
 }
+

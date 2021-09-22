@@ -11,17 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone2">
+        <activity android:name=".GraphActivity2"></activity>
         <activity
             android:name=".Main3Activity"
             android:label="@string/title_activity_main3"
-            android:theme="@style/Theme.Capstone2.NoActionBar"></activity>
-        <activity
-            android:name=".MainActivity3"
-            android:label="@string/title_activity_main3"
-            android:theme="@style/Theme.Capstone2.NoActionBar" />
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
             android:theme="@style/Theme.Capstone2.NoActionBar" />
         <activity android:name=".GraphActivity" />
         <activity android:name=".UsefulActivity" />

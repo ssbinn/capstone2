@@ -1,10 +1,11 @@
 package com.example.capstone2;
 
+import static com.example.capstone2.util.DrawerUtil.drawerUtil;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.example.capstone2.util.ParseData;
+import com.example.capstone2.util.trafficData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -24,29 +27,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import im.dacer.androidcharts.LineView;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class TimeActivity extends AppCompatActivity {
 
-    ArrayList<ArrayList<Week>> timeList;
+    ArrayList<ArrayList<trafficData>> timeList;
 
+    ParseData parseData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time);
 
+        getData();
         initView();
 
-        getData();
 
     }
 
 
     private void initView(){
+
+        View drawerView = findViewById(R.id.drawer_view);
+        drawerUtil.setDrawerListener(drawerView, this);
 
         ImageView iv = findViewById(R.id.imageView10);
         iv.setOnClickListener(new View.OnClickListener(){
@@ -90,13 +96,9 @@ public class TimeActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        timeList = new ArrayList<>();
-        getTimeData(getString(R.string.six_to_nine));
-        getTimeData(getString(R.string.nine_to_twelve));
-        getTimeData(getString(R.string.twelve_to_fifteen));
-        getTimeData(getString(R.string.fifteen_to_eighteen));
-        getTimeData(getString(R.string.eighteen_to_twenty_one));
-        getTimeData(getString(R.string.twenty_one_to_twenty_four));
+
+        parseData = new ParseData(this);
+        timeList = parseData.getTimeList();
     }
 
 
@@ -176,17 +178,17 @@ public class TimeActivity extends AppCompatActivity {
 
         for (int i=0; i<timeList.size(); i++)
         {
-            for(Week week : timeList.get(i))
+            for(trafficData trafficData : timeList.get(i))
             {
-                if(week.getStart_line() == startLine && week.getStart_station().equals(startStation) &&
-                        week.getStop_line() == stopLine && week.getStop_station().equals(stopStation)){
+                if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
+                        trafficData.getStop_line() == stopLine && trafficData.getStop_station().equals(stopStation)){
 
-                    Log.d("선택된 week", "i : " + i +", pb : " + week.getPb() );
-                    pbList.add(new Entry(i+1, week.getPb()));
+                    Log.d("선택된 data", "i : " + i +", pb : " + trafficData.getPb() );
+                    pbList.add(new Entry(i+1, trafficData.getPb()));
 
                     if(logoClick)
                     {
-                        countList.add(new Entry(i+1, week.getCount()));
+                        countList.add(new Entry(i+1, trafficData.getCount()));
                     }
                 }
             }
@@ -196,91 +198,12 @@ public class TimeActivity extends AppCompatActivity {
         Log.d("포인트 체크", "size : "+ timeList.size() +
                 ", startPoint : "+ startLine+", " + startStation + ", endPoint : " + stopLine + ", " + stopStation);
 
-        drawLineChart(lineChart, pbList, countList, logoClick);
+        parseData.drawLineChart(lineChart, pbList, countList, logoClick, ParseData.timeLabels);
 
     }
 
-    private void drawLineChart(LineChart lineChart, ArrayList<Entry> pbList,  ArrayList<Entry> countList, boolean logoClick){
 
 
-        String[] labels = {"","6~9","9~12","12~15","15~18","18~21","21~24"};
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setCenterAxisLabels(false);
-        xAxis.setGranularity(1f);
-        xAxis.setTextColor(Color.BLACK);
-        xAxis.setTextSize(10);
-        xAxis.setAxisLineColor(Color.WHITE);
-        xAxis.setAxisMinimum(1f);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-
-        LineDataSet pbSet = new LineDataSet(pbList, "pb");
-        LineDataSet countSet = new LineDataSet(countList, "count");
-        pbSet.setColor(R.color.black);
-
-        pbSet.setCircleColor(R.color.black);
-
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(pbSet);
-        if(logoClick) dataSets.add(countSet);
-
-        LineData data = new LineData(dataSets);
-
-        lineChart.setData(data);
-        lineChart.invalidate();
-    }
-
-
-    private void getTimeData(String fileName){
-        try{
-
-            InputStream is = getResources().getAssets().open(fileName + ".xls");
-            Workbook wb = Workbook.getWorkbook(is);
-
-
-            ArrayList<Week> list = new ArrayList<>();
-
-
-            if(wb!=null)
-            {
-                Sheet sheet = wb.getSheet(0);
-
-                if(sheet!=null){
-                    int colTotal = sheet.getColumns();
-                    int rowIndexStart = 1;
-                    int rowTotal = sheet.getColumn(colTotal-1).length;
-
-
-                    Log.d( "내용","총 줄 : " + (rowTotal-1));
-                    for(int row = rowIndexStart; row<rowTotal;row++){
-
-                        Week week = new Week(sheet.getCell(0, row).getContents(),
-                                Integer.parseInt(sheet.getCell(1, row).getContents()),
-                                sheet.getCell(2, row).getContents(),
-                                Integer.parseInt(sheet.getCell(3, row).getContents()),
-                                sheet.getCell(4, row).getContents(),
-                                Integer.parseInt(sheet.getCell(5, row).getContents()),
-                                Integer.parseInt(sheet.getCell(6, row).getContents()));
-
-                        Log.d("내용" ,"week : " + week.getDate()+", "+week.getStart_line()+", "
-                                + week.getStart_station()+", " + week.getStop_line()+", " +week.getStop_station()
-                                +", " + week.getCount() +", " +week.getPb());
-
-                        list.add(week);
-                    }
-
-                    timeList.add(list); //요일별 데이터 추가
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BiffException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 }

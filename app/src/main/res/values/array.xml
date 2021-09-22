@@ -12,7 +12,7 @@
         <item>9호선</item>
     </string-array>
 
-    <string-array name="week">
+    <string-array name="trafficData">
         <item>2호선 강남</item>
         <item>1호선 역곡</item>
         <item>3호선 오금</item>

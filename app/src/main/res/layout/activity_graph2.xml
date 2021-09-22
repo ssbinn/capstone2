@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".GraphActivity">
+        tools:context=".GraphActivity2">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -47,15 +47,15 @@
             android:id="@+id/tv_start_line"
             android:layout_width="60dp"
             android:layout_height="40dp"
+            android:layout_marginTop="30dp"
             android:background="#5a6276"
             android:gravity="center"
             android:text="출발호선"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginTop="30dp"
-            app:layout_constraintTop_toBottomOf="@id/iv_graph"
-            app:layout_constraintStart_toStartOf="@id/iv_graph" />
+            app:layout_constraintStart_toStartOf="@id/iv_graph"
+            app:layout_constraintTop_toBottomOf="@id/iv_graph" />
 
         <TextView
             android:id="@+id/tv_goal_line"
@@ -109,7 +109,7 @@
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_logo"
-            app:srcCompat="@drawable/compare" />
+            app:srcCompat="@drawable/plus" />
 
         <ImageView
             android:id="@+id/iv_marker_map"
@@ -201,7 +201,3 @@
         android:id="@+id/drawer_view"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
-
-
-

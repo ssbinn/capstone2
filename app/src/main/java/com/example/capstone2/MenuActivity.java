@@ -1,5 +1,7 @@
 package com.example.capstone2;
 
+import static com.example.capstone2.util.DrawerUtil.drawerUtil;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -14,6 +16,9 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        View drawerView = findViewById(R.id.drawer_view);
+        drawerUtil.setDrawerListener(drawerView, this);
 
         Button developer_info_btn = (Button) findViewById(R.id.button4);
         developer_info_btn.setOnClickListener(new View.OnClickListener(){

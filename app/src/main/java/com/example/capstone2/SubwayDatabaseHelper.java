@@ -14,8 +14,8 @@ import java.io.OutputStream;
 
 public class SubwayDatabaseHelper extends SQLiteOpenHelper {
 
-    String DB_PATH = null;
-    private static String DB_NAME = "coordinate"; // SQLLite 파일명 이름
+    String DB_PATH = "";
+    private static String DB_NAME = "coordinate.db"; // SQLLite 파일명 이름
     private SQLiteDatabase myDataBase;
     private final Context myContext;
 
@@ -98,7 +98,7 @@ public class SubwayDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
-        return myDataBase.query("subwayData", null, null, null, null, null, null);
+        return myDataBase.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
     }
 
 

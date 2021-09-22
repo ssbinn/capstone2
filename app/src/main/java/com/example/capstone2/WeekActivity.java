@@ -1,5 +1,7 @@
 package com.example.capstone2;
 
+import static com.example.capstone2.util.DrawerUtil.drawerUtil;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.example.capstone2.util.ParseData;
+import com.example.capstone2.util.trafficData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -19,32 +23,28 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 public class WeekActivity extends AppCompatActivity {
 
     ImageView iv;
 
-    ArrayList<ArrayList<Week>> weekList;
-
-
+    ArrayList<ArrayList<trafficData>> weekList;
+    ParseData parseData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week);
 
-        initView();
         getData();
+        initView();
     }
 
     private void initView(){
+
+        View drawerView = findViewById(R.id.drawer_view);
+        drawerUtil.setDrawerListener(drawerView, this);
 
         iv = (ImageView)findViewById(R.id.imageView10);
         iv.setOnClickListener(new View.OnClickListener(){
@@ -89,14 +89,8 @@ public class WeekActivity extends AppCompatActivity {
 
 
     private void getData(){
-        weekList = new ArrayList<>();
-        getDayData(getString(R.string.monday));
-        getDayData(getString(R.string.tuesday));
-        getDayData(getString(R.string.wednesday));
-        getDayData(getString(R.string.thursday));
-        getDayData(getString(R.string.friday));
-        getDayData(getString(R.string.saturday));
-        getDayData(getString(R.string.sunday));
+        parseData = new ParseData(this);
+        weekList = parseData.getWeekList();
     }
 
 
@@ -176,113 +170,27 @@ public class WeekActivity extends AppCompatActivity {
 
         for (int i=0; i<weekList.size(); i++)
         {
-            for(Week week : weekList.get(i))
+            for(trafficData trafficData : weekList.get(i))
             {
-                if(week.getStart_line() == startLine && week.getStart_station().equals(startStation) &&
-                week.getStop_line() == stopLine && week.getStop_station().equals(stopStation)){
 
-                    Log.d("선택된 week", "i : " + i +", pb : " + week.getPb() );
-                    pbList.add(new Entry(i+1, week.getPb()));
+                if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
+                trafficData.getStop_line() == stopLine && trafficData.getStop_station().equals(stopStation)){
+
+                    Log.d("선택된 data", "i : " + i +", pb : " + trafficData.getPb() );
+                    pbList.add(new Entry(i+1, trafficData.getPb()));
 
                     if(logoClick)
                     {
-                        countList.add(new Entry(i+1, week.getCount()));
+                        countList.add(new Entry(i+1, trafficData.getCount()));
                     }
                 }
             }
+
         }
-
-
         Log.d("포인트 체크", "size : "+ weekList.size() +
                 ", startPoint : "+ startLine+", " + startStation + ", endPoint : " + stopLine + ", " + stopStation);
 
-        drawLineChart(lineChart, pbList, countList, logoClick);
-
-    }
-
-    private void drawLineChart(LineChart lineChart, ArrayList<Entry> pbList,  ArrayList<Entry> countList, boolean logoClick){
-
-
-        String[] labels = {"","월","화","수","목","금","토","일",""};
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setCenterAxisLabels(false);
-        xAxis.setGranularity(1f);
-        xAxis.setTextColor(Color.BLACK);
-        xAxis.setTextSize(10);
-        xAxis.setAxisLineColor(Color.WHITE);
-        xAxis.setAxisMinimum(1f);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-
-        LineDataSet pbSet = new LineDataSet(pbList, "pb");
-        LineDataSet countSet = new LineDataSet(countList, "count");
-        pbSet.setColor(R.color.black);
-
-        pbSet.setCircleColor(R.color.black);
-
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(pbSet);
-        if(logoClick) dataSets.add(countSet);
-
-        LineData data = new LineData(dataSets);
-
-        lineChart.setData(data);
-        lineChart.invalidate();
-    }
-
-
-
-
-
-    private void getDayData(String fileName){
-        try{
-
-            InputStream is = getResources().getAssets().open(fileName + ".xls");
-            Workbook wb = Workbook.getWorkbook(is);
-
-
-            ArrayList<Week> list = new ArrayList<>();
-
-
-            if(wb!=null)
-            {
-                Sheet sheet = wb.getSheet(0);
-
-                if(sheet!=null){
-                    int colTotal = sheet.getColumns();
-                    int rowIndexStart = 1;
-                    int rowTotal = sheet.getColumn(colTotal-1).length;
-
-
-                    Log.d( "내용","총 줄 : " + (rowTotal-1));
-                    for(int row = rowIndexStart; row<rowTotal;row++){
-
-                        Week week = new Week(sheet.getCell(0, row).getContents(),
-                                Integer.parseInt(sheet.getCell(1, row).getContents()),
-                                sheet.getCell(2, row).getContents(),
-                                Integer.parseInt(sheet.getCell(3, row).getContents()),
-                                sheet.getCell(4, row).getContents(),
-                                Integer.parseInt(sheet.getCell(5, row).getContents()),
-                                Integer.parseInt(sheet.getCell(6, row).getContents()));
-
-                        Log.d("내용" ,"week : " + week.getDate()+", "+week.getStart_line()+", "
-                        + week.getStart_station()+", " + week.getStop_line()+", " +week.getStop_station()
-                        +", " + week.getCount() +", " +week.getPb());
-
-                        list.add(week);
-                    }
-
-                    weekList.add(list); //요일별 데이터 추가
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BiffException e) {
-            e.printStackTrace();
-        }
+        parseData.drawLineChart(lineChart, pbList, countList, logoClick, ParseData.weekLabels);
     }
 
 }

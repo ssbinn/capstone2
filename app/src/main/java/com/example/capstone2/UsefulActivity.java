@@ -1,5 +1,7 @@
 package com.example.capstone2;
 
+import static com.example.capstone2.util.DrawerUtil.drawerUtil;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,12 +17,9 @@ public class UsefulActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_useful);
 
-        iv = (ImageView)findViewById(R.id.imageView13);
-        iv.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
-            }
-        });
+        View drawerView = findViewById(R.id.drawer_view);
+        drawerUtil.setDrawerListener(drawerView, this);
+
+
     }
 }

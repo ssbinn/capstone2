@@ -35,5 +35,12 @@
     <string name="menu_slideshow">Graph</string>
     <string name="title_activity_main3">MainActivity3</string>
 
+    <string name="start_or_goal">startOrGoal</string>
+    <string name="line">line</string>
+    <string name="target_station">target_station</string>
+
+    <string name="none_click">noneClick</string>
+    <string name="click">click</string>
+
 
 </resources>

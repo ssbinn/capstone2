@@ -1,6 +1,7 @@
-package com.example.capstone2;
+package com.example.capstone2.util;
 
-public class Week {
+public class trafficData {
+
 
 
     private String Date;
@@ -11,7 +12,7 @@ public class Week {
     private Integer Count;
     private Integer Pb;
 
-    public Week(String date, Integer start_line, String start_station, Integer stop_line, String stop_station, Integer count, Integer pb) {
+    public trafficData(String date, Integer start_line, String start_station, Integer stop_line, String stop_station, Integer count, Integer pb) {
         Date = date;
         Start_line = start_line;
         Start_station = start_station;
