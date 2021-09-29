@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,18 +12,19 @@ import android.widget.ImageView;
 
 import com.example.capstone2.util.ParseData;
 import com.example.capstone2.util.StationData;
-import com.example.capstone2.util.trafficData;
+import com.example.capstone2.util.TrafficData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.capstone2.util.DrawerUtil.drawerUtil;
 
 public class GraphActivity2 extends AppCompatActivity {
 
-    private ArrayList<ArrayList<trafficData>> timeList;
-    private ArrayList<ArrayList<trafficData>> weekList;
+    private ArrayList<ArrayList<TrafficData>> timeList;
+    private ArrayList<ArrayList<TrafficData>> weekList;
     private ParseData parseData;
 
     private EditText etStartLine;
@@ -35,12 +37,13 @@ public class GraphActivity2 extends AppCompatActivity {
     private int searchTime = 1;
     private int currentSearchType = searchWeek;
 
+    private HashMap<String, ArrayList<Entry>> pbMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph2);
-
 
         initView();
         initData();
@@ -111,6 +114,7 @@ public class GraphActivity2 extends AppCompatActivity {
 
     private void initData(){
 
+        pbMap = new HashMap<>();
         parseData = new ParseData(this);
         timeList = parseData.getTimeList();
         weekList = parseData.getWeekList();
@@ -123,41 +127,52 @@ public class GraphActivity2 extends AppCompatActivity {
 
             if(etStartLine.getText().toString().isEmpty() || etGoalLine.getText().toString().isEmpty()) return;
 
-            if(v.getId() == R.id.btn_week)
-            {
+            if(v.getId() == R.id.btn_week) {
+                pbMap.clear();
                 currentSearchType = searchWeek;
-                drawLineChart(false, searchWeek);
-
+                drawLineChart(searchWeek);
             }
             else if (v.getId()== R.id.btn_time){
+                pbMap.clear();
                 currentSearchType = searchTime;
-                drawLineChart(false, searchTime);
+                drawLineChart(searchTime);
             }
-            else if(v.getId()==R.id.iv_graph) {
-                drawLineChart(true, currentSearchType);
+            else if(v.getId()==R.id.iv_graph) { //이때 새로운 라인 추가
+                if(pbMap.size()==3) pbMap.clear(); //그래프 3개일 경우 초기화
+                drawLineChart(currentSearchType);
             }
 
         }
     };
 
-    private void drawLineChart(boolean logoClick, int weekOrTime){
+    private void drawLineChart(int weekOrTime){
+
 
         int startLine = Integer.parseInt(etStartLine.getText().toString());
         String startStation = etStartStation.getText().toString();
         int goalLine = Integer.parseInt(etGoalLine.getText().toString());
         String goalStation = etGoalStation.getText().toString();
 
+
+        StringBuilder sb = new StringBuilder(); // 역 정보를 담는 StringBuilder
+        sb.append(startStation);
+        sb.append(startLine);
+        sb.append("호선 ");
+        sb.append(goalStation);
+        sb.append(goalLine);
+        sb.append("호선");
+
+        if(pbMap.containsKey(sb.toString()))  return;
+
         ArrayList<Entry> pbList = new ArrayList<>();
-        ArrayList<Entry> countList = new ArrayList<>();;
         pbList.add(new Entry(0,0));
-        countList.add(new Entry(0,0));
 
 
         if(weekOrTime == searchWeek)
         {
             for (int i=0; i<weekList.size(); i++)
             {
-                for(com.example.capstone2.util.trafficData trafficData : weekList.get(i))
+                for(TrafficData trafficData : weekList.get(i))
                 {
 
                     if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
@@ -165,36 +180,38 @@ public class GraphActivity2 extends AppCompatActivity {
 
                         pbList.add(new Entry(i+1, trafficData.getPb()));
 
-                        if(logoClick)
-                        {
-                            countList.add(new Entry(i+1, trafficData.getCount()));
-                        }
                     }
                 }
             }
 
-            parseData.drawLineChart(lineChart, pbList, countList, logoClick, ParseData.weekLabels);
+            if(pbList.size()>1)
+            {
+                pbMap.put(sb.toString(), pbList);
+                parseData.drawPbLineChart(lineChart, pbMap, ParseData.weekLabels);
+            }
 
         }else if (weekOrTime == searchTime)
         {
             for (int i=0; i<timeList.size(); i++)
             {
-                for(trafficData trafficData : timeList.get(i))
+                for(TrafficData trafficData : timeList.get(i))
                 {
                     if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
                             trafficData.getStop_line() == goalLine && trafficData.getStop_station().equals(goalStation)){
 
                         pbList.add(new Entry(i+1, trafficData.getPb()));
 
-                        if(logoClick)
-                        {
-                            countList.add(new Entry(i+1, trafficData.getCount()));
-                        }
+
                     }
                 }
             }
 
-            parseData.drawLineChart(lineChart, pbList, countList, logoClick, ParseData.timeLabels);
+            if(pbList.size()>1)
+            {
+                pbMap.put(sb.toString(), pbList);
+                parseData.drawPbLineChart(lineChart, pbMap, ParseData.timeLabels);
+            }
+
         }
 
     }

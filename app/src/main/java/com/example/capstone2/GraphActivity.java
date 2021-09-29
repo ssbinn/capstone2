@@ -4,19 +4,16 @@ import static com.example.capstone2.util.DrawerUtil.drawerUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.capstone2.ui.dialog.CustomDialog;
 import com.example.capstone2.util.ParseData;
 import com.example.capstone2.util.StationData;
-import com.example.capstone2.util.trafficData;
+import com.example.capstone2.util.TrafficData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
@@ -25,8 +22,8 @@ import java.util.ArrayList;
 public class GraphActivity extends AppCompatActivity {
 
 
-    private ArrayList<ArrayList<trafficData>> timeList;
-    private ArrayList<ArrayList<trafficData>> weekList;
+    private ArrayList<ArrayList<TrafficData>> timeList;
+    private ArrayList<ArrayList<TrafficData>> weekList;
     private ParseData parseData;
 
     private EditText etStartLine;
@@ -161,7 +158,7 @@ public class GraphActivity extends AppCompatActivity {
         {
             for (int i=0; i<weekList.size(); i++)
             {
-                for(trafficData trafficData : weekList.get(i))
+                for(TrafficData trafficData : weekList.get(i))
                 {
 
                     if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
@@ -183,7 +180,7 @@ public class GraphActivity extends AppCompatActivity {
         {
             for (int i=0; i<timeList.size(); i++)
             {
-                for(trafficData trafficData : timeList.get(i))
+                for(TrafficData trafficData : timeList.get(i))
                 {
                     if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
                             trafficData.getStop_line() == goalLine && trafficData.getStop_station().equals(goalStation)){

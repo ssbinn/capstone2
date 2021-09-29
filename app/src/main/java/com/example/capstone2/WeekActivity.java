@@ -5,7 +5,6 @@ import static com.example.capstone2.util.DrawerUtil.drawerUtil;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,14 +13,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.capstone2.util.ParseData;
-import com.example.capstone2.util.trafficData;
+import com.example.capstone2.util.TrafficData;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 
@@ -29,7 +23,7 @@ public class WeekActivity extends AppCompatActivity {
 
     ImageView iv;
 
-    ArrayList<ArrayList<trafficData>> weekList;
+    ArrayList<ArrayList<TrafficData>> weekList;
     ParseData parseData;
 
     @Override
@@ -170,7 +164,7 @@ public class WeekActivity extends AppCompatActivity {
 
         for (int i=0; i<weekList.size(); i++)
         {
-            for(trafficData trafficData : weekList.get(i))
+            for(TrafficData trafficData : weekList.get(i))
             {
 
                 if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&

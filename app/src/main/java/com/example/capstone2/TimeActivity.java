@@ -5,7 +5,6 @@ import static com.example.capstone2.util.DrawerUtil.drawerUtil;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,26 +13,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.capstone2.util.ParseData;
-import com.example.capstone2.util.trafficData;
+import com.example.capstone2.util.TrafficData;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 public class TimeActivity extends AppCompatActivity {
 
-    ArrayList<ArrayList<trafficData>> timeList;
+    ArrayList<ArrayList<TrafficData>> timeList;
 
     ParseData parseData;
 
@@ -178,7 +166,7 @@ public class TimeActivity extends AppCompatActivity {
 
         for (int i=0; i<timeList.size(); i++)
         {
-            for(trafficData trafficData : timeList.get(i))
+            for(TrafficData trafficData : timeList.get(i))
             {
                 if(trafficData.getStart_line() == startLine && trafficData.getStart_station().equals(startStation) &&
                         trafficData.getStop_line() == stopLine && trafficData.getStop_station().equals(stopStation)){

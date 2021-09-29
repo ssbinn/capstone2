@@ -1,6 +1,6 @@
 package com.example.capstone2.util;
 
-public class trafficData {
+public class TrafficData {
 
 
 
@@ -12,7 +12,7 @@ public class trafficData {
     private Integer Count;
     private Integer Pb;
 
-    public trafficData(String date, Integer start_line, String start_station, Integer stop_line, String stop_station, Integer count, Integer pb) {
+    public TrafficData(String date, Integer start_line, String start_station, Integer stop_line, String stop_station, Integer count, Integer pb) {
         Date = date;
         Start_line = start_line;
         Start_station = start_station;

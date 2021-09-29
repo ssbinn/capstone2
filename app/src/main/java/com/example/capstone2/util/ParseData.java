@@ -4,9 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.capstone2.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -16,7 +19,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Map;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -36,8 +39,8 @@ public class ParseData {
     }
 
 
-    public ArrayList<ArrayList<trafficData>> getWeekList(){
-        ArrayList<ArrayList<trafficData>> weekList = new ArrayList<>();
+    public ArrayList<ArrayList<TrafficData>> getWeekList(){
+        ArrayList<ArrayList<TrafficData>> weekList = new ArrayList<>();
         getDayData(weekList, mContext.getString(R.string.monday));
         getDayData(weekList, mContext.getString(R.string.tuesday));
         getDayData(weekList, mContext.getString(R.string.wednesday));
@@ -49,8 +52,8 @@ public class ParseData {
         return weekList;
     }
 
-    public ArrayList<ArrayList<trafficData>> getTimeList(){
-        ArrayList<ArrayList<trafficData>> timeList = new ArrayList<>();
+    public ArrayList<ArrayList<TrafficData>> getTimeList(){
+        ArrayList<ArrayList<TrafficData>> timeList = new ArrayList<>();
         timeList = new ArrayList<>();
         getTimeData(timeList, mContext.getString(R.string.six_to_nine));
         getTimeData(timeList, mContext.getString(R.string.nine_to_twelve));
@@ -62,14 +65,14 @@ public class ParseData {
         return timeList;
     }
 
-    private void getDayData(ArrayList<ArrayList<trafficData>> weekList, String fileName){
+    private void getDayData(ArrayList<ArrayList<TrafficData>> weekList, String fileName){
         try{
 
             InputStream is = mContext.getResources().getAssets().open(fileName + ".xls");
             Workbook wb = Workbook.getWorkbook(is);
 
 
-            ArrayList<trafficData> list = new ArrayList<>();
+            ArrayList<TrafficData> list = new ArrayList<>();
 
 
             if(wb!=null)
@@ -85,7 +88,7 @@ public class ParseData {
 //                    Log.d( "내용","총 줄 : " + (rowTotal-1));
                     for(int row = rowIndexStart; row<rowTotal;row++){
 
-                        trafficData trafficData = new trafficData(sheet.getCell(0, row).getContents(),
+                        TrafficData trafficData = new TrafficData(sheet.getCell(0, row).getContents(),
                                 Integer.parseInt(sheet.getCell(1, row).getContents()),
                                 sheet.getCell(2, row).getContents(),
                                 Integer.parseInt(sheet.getCell(3, row).getContents()),
@@ -113,7 +116,7 @@ public class ParseData {
 
 
 
-    private void getTimeData(ArrayList<ArrayList<trafficData>> timeList, String fileName){
+    private void getTimeData(ArrayList<ArrayList<TrafficData>> timeList, String fileName){
         try{
 
             InputStream is = mContext.getResources().getAssets().open(fileName + ".xls");
@@ -121,7 +124,7 @@ public class ParseData {
             Workbook wb = Workbook.getWorkbook(is);
 
 
-            ArrayList<trafficData> list = new ArrayList<>();
+            ArrayList<TrafficData> list = new ArrayList<>();
 
 
             if(wb!=null)
@@ -137,7 +140,7 @@ public class ParseData {
 //                    Log.d( "내용","총 줄 : " + (rowTotal-1));
                     for(int row = rowIndexStart; row<rowTotal;row++){
 
-                        trafficData trafficData = new trafficData(sheet.getCell(0, row).getContents(),
+                        TrafficData trafficData = new TrafficData(sheet.getCell(0, row).getContents(),
                                 Integer.parseInt(sheet.getCell(1, row).getContents()),
                                 sheet.getCell(2, row).getContents(),
                                 Integer.parseInt(sheet.getCell(3, row).getContents()),
@@ -165,6 +168,7 @@ public class ParseData {
 
     public void drawLineChart(LineChart lineChart, ArrayList<Entry> pbList, ArrayList<Entry> countList, boolean logoClick, String[] labels){
 
+        lineChart.setExtraBottomOffset(20);
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setCenterAxisLabels(false);
@@ -178,12 +182,11 @@ public class ParseData {
         LineDataSet pbSet = new LineDataSet(pbList, "pb값");
         LineDataSet countSet = new LineDataSet(countList, "원본값");
         pbSet.setLineWidth(2f);
-        pbSet.setColor(R.color.black);
-        pbSet.setCircleColor(R.color.black);
-        pbSet.setCircleHoleColor(R.color.black);
-        countSet.setLineWidth(1f);
-        countSet.setColor(Color.parseColor("#e81e25"));
-        countSet.setCircleColor(R.color.purple_200);
+        pbSet.setColor(ContextCompat.getColor(mContext,R.color.black));
+        pbSet.setCircleColor(ContextCompat.getColor(mContext,R.color.black));
+        countSet.setLineWidth(2f);
+        countSet.setColor(ContextCompat.getColor(mContext,R.color.color_red));
+        countSet.setCircleColor(ContextCompat.getColor(mContext,R.color.color_red));
 
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
@@ -192,6 +195,62 @@ public class ParseData {
 
         LineData data = new LineData(dataSets);
 
+        lineChart.setData(data);
+        lineChart.invalidate();
+    }
+
+
+    public void drawPbLineChart(LineChart lineChart, Map<String,ArrayList<Entry>> pbMap,  String[] labels){
+
+        lineChart.setExtraBottomOffset(20);
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setCenterAxisLabels(false);
+        xAxis.setGranularity(1f);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.setTextSize(10);
+        xAxis.setAxisLineColor(Color.WHITE);
+        xAxis.setAxisMinimum(1f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+
+
+        int cnt =0;
+        for(String key : pbMap.keySet())
+        {
+
+            cnt++;
+//            LineDataSet pbSet = new LineDataSet(pbMap.get(key), key); // key 역정보 String
+
+            LineDataSet pbSet = new LineDataSet(pbMap.get(key), "역정보" + cnt);
+            pbSet.setLineWidth(2f);
+
+            int color = R.color.color_red;
+            switch (cnt)
+            {
+                case 1:{
+                    color = R.color.color_red;
+                    break;
+                }
+                case 2:{
+                    color = R.color.color_green;
+                    break;
+                }
+                case 3:{
+                    color = R.color.color_blue;
+                    break;
+                }
+            }
+
+            pbSet.setColor(ContextCompat.getColor(mContext,color));
+            pbSet.setCircleColor(ContextCompat.getColor(mContext,color));
+
+            dataSets.add(pbSet);
+        }
+
+
+        LineData data = new LineData(dataSets);
         lineChart.setData(data);
         lineChart.invalidate();
     }
