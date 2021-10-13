@@ -6,22 +6,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="co-lab"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone2">
         <activity android:name=".GraphActivity2"></activity>
-        <activity
-            android:name=".Main3Activity"
-            android:label="@string/title_activity_main3"
-            android:theme="@style/Theme.Capstone2.NoActionBar" />
         <activity android:name=".GraphActivity" />
         <activity android:name=".UsefulActivity" />
-        <activity android:name=".TimeActivity" />
-        <activity android:name=".WeekActivity" />
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".IntroActivity" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -33,7 +23,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".BarChartMainActivity" />
     </application>
 
 </manifest>

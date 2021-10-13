@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.capstone2.MenuActivity;
 import com.example.capstone2.R;
 
 public class GalleryFragment extends Fragment {
