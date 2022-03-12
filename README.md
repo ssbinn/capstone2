@@ -1,5 +1,5 @@
 ## Colab_Subway
-*익명화 기술(LDP)을 이용하여 안전한 교통 빅데이터 분석 어플리케이션*<br>
+익명화 기술(LDP)을 이용하여 안전한 교통 빅데이터 분석 어플리케이션<br>
 
 개인 정보 비식별화 기술인 LDP를 이용하여 개인의 프라이버시를 보존할 수 있습니다.
 
@@ -17,8 +17,4 @@
 - 요일별, 시간별 교통 체증 확인
 
 <br>
-
-## 기능 요구사항
-- python, jupyter notebook
-- java, sqlite, android studio
 
